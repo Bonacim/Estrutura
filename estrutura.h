@@ -40,6 +40,12 @@ public:
 		Estrutura();
 		~Estrutura();
 
+		int GetH(){return h;}
+		int GetLargura(int i) {return largura[i];}
+		double GetPosX(int y, int x) {return pos[y][x].x;}
+		double GetPosY(int y, int x) {return pos[y][x].y;}
+
+
 		void Inicializa(int t_inicial=1000, int t_largura=1000,  int height = 0, int lenght = 0);
 		void SalvaT();
 		void CalculaT();
@@ -55,6 +61,5 @@ public:
 		bool converged();
 		void calculate_forces();
 		void calculate_dispacements();
-		void render_window();
 		void print_failure();
 };

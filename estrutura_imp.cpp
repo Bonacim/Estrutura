@@ -203,12 +203,6 @@ void Estrutura::calculate_dispacements()
 	}
 }
 
-void Estrutura::render_window() 
-{  // essa função vai chamar as funções do SDL
-    // funções implementadas em estrutura_sdl.c
-    // defina e coloque apenas as funções necessárias
-}
-
 void Estrutura::print_failure() 
 {
 	printf("Falhou em calcular as forcas\n");
@@ -414,15 +408,29 @@ bool Estrutura::Executar()
 	if (read_inputs()) return 1;     // le os arquivos da estrutura, e arquivo de input
     prepare_environment();  // alocacao de memória, matrizes, inicializa o que precisar
     int iteration = 0;
+    bool quit=false;
+    create_window();
     while( !converged() ) {
         calculate_forces();
         calculate_dispacements();
-        render_window();
+        render_window(&quit,this);
+        if (quit)
+        {
+        	printf("Janela fechada\n");
+        	return 0;
+        }
         iteration++;
-        if(iteration > max_iteration) {
-            print_failure();
-            //printf("%d\n",iteration);
-            return 1;
+
+		//printf("Pressione ENTER para continuar...\n");
+        //getchar();
+
+        if(iteration > max_iteration) 
+        {
+            	print_failure();
+            	printf("%.17lf %.17lf\n",pos[0][0].x, pos[0][0].y);
+            	printf("Pressione ENTER para continuar...\n");
+        		getchar();
+            	return 1;
         }
     }
     CalculaT();
